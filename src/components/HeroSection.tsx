@@ -1,17 +1,23 @@
-import { ArrowDown } from "lucide-react";
+import { Download } from "lucide-react";
+import Image from "next/image";
 
-export default function HeroSection() {
+interface Props {
+  cvUrl: string | null;
+}
+
+export default function HeroSection({ cvUrl }: Props) {
   return (
     <section className="relative h-screen w-full flex flex-col justify-end pb-20 px-6 md:px-12 overflow-hidden">
       <div className="absolute inset-0 w-full h-full z-0">
-        <div className="absolute inset-0 bg-linear-to-b from-background-dark/30 via-transparent to-background-dark z-10"></div>
-        <div
-          className="w-full h-full bg-cover bg-center grayscale opacity-60"
-          style={{
-            backgroundImage:
-              "url('/heroimage.jpg')",
-          }}
-        ></div>
+        <div className="absolute inset-0 bg-linear-to-b from-background-dark/30 via-transparent to-background-dark z-10" />
+        <Image
+          src="/heroimage.jpg"
+          alt="Hero background"
+          fill
+          priority
+          className="object-cover opacity-60 grayscale"
+          style={{ objectPosition: "72% 43%" }}
+        />
       </div>
 
       <div className="relative z-20 max-w-350 w-full mx-auto">
@@ -27,15 +33,30 @@ export default function HeroSection() {
         </div>
         <div className="mt-12 flex flex-col md:flex-row justify-between items-end gap-8 border-t border-white/10 pt-8">
           <p className="max-w-md text-slate-300 text-lg leading-relaxed font-light">
-            Specializing in deep-impact digital experiences. Building the future
-            of web infrastructure, one line at a time.
+            Full-stack engineer turning complex problems into clean, scalable products. I care deeply about performance, clarity, and great UX
           </p>
-          <div className="flex items-center gap-2 text-white/60 hover:text-primary transition-colors cursor-pointer group">
-            <span className="text-sm font-medium uppercase tracking-widest group-hover:mr-2 transition-all">
-              Scroll to Explore
-            </span>
-            <ArrowDown className="w-4 h-4 animate-bounce" />
-          </div>
+
+          {cvUrl ? (
+            <a
+              href={cvUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              className="group flex items-center gap-3 px-7 py-3.5 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-black transition-all duration-300"
+            >
+              <Download className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0" />
+              <span className="text-sm font-bold uppercase tracking-widest">
+                Download CV
+              </span>
+            </a>
+          ) : (
+            <button disabled className="flex items-center gap-3 px-7 py-3.5 rounded-full border border-white/10 text-white/30 cursor-not-allowed select-none">
+              <Download className="w-4 h-4" />
+              <span className="text-sm font-bold uppercase tracking-widest">
+                Download CV
+              </span>
+            </button>
+          )}
         </div>
       </div>
     </section>
