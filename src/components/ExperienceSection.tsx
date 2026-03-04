@@ -1,39 +1,13 @@
+import { formatPeriod } from "@/lib/helper";
+import { type ExperienceQueryResult } from "@/sanity/lib/queries";
 import { Briefcase, CalendarDays, MapPin } from "lucide-react";
 
-interface Achievement  {
-  text: string;
-};
+interface Props {
+  experiences: ExperienceQueryResult[];
+}
 
-interface ExperienceEntry  {
-  company: string;
-  role: string;
-  period: string;
-  location: string;
-  type: string; 
-  description: string;
-  achievements: Achievement[];
-  tags: string[];
-};
 
-const experiences: ExperienceEntry[] = [
-  {
-    company: "Wavyi",
-    role: "Front-Ene Developer",
-    period: "Jan 2023 — Present",
-    location: "Cairo, Egypt",
-    type: "Full-time",
-    description:
-      "Leading end-to-end development of scalable web applications, owning the full product lifecycle from architecture and API design to polished user interfaces.",
-    achievements: [
-      { text: "Built and launched 3 production-grade web apps" },
-      { text: "Reduced page load time by 45% through optimization" },
-      { text: "Designed and maintained REST APIs consumed by 10k+ users" },
-    ],
-    tags: ["React", "Next.js", "Node.js", "PostgreSQL", "TypeScript"],
-  },
-];
-
-export default function ExperienceSection() {
+export default function ExperienceSection({ experiences }: Props) {
   return (
     <section
       className="py-32 px-6 md:px-12 relative bg-background-dark"
@@ -60,20 +34,22 @@ export default function ExperienceSection() {
           )}
 
           <div className="flex flex-col gap-0">
-            {experiences.map((exp, index) => (
+            {experiences.map((exp) => (
               <div
-                key={index}
+                key={exp._id}
                 className="group relative flex flex-col md:flex-row gap-0 md:gap-16"
               >
                 <div className="md:w-55 md:shrink-0 mb-8 md:mb-0 md:pt-1 md:text-right">
                   <div className="flex items-center gap-2 md:justify-end text-slate-500 text-xs uppercase tracking-widest mb-3">
                     <CalendarDays className="w-3 h-3 md:order-2" />
-                    <span>{exp.period}</span>
+                    <span>{formatPeriod(exp.startDate, exp.endDate)}</span>
                   </div>
-                  <div className="flex items-center gap-2 md:justify-end text-slate-500 text-xs">
-                    <MapPin className="w-3 h-3 md:order-2" />
-                    <span>{exp.location}</span>
-                  </div>
+                  {exp.location && (
+                    <div className="flex items-center gap-2 md:justify-end text-slate-500 text-xs">
+                      <MapPin className="w-3 h-3 md:order-2" />
+                      <span>{exp.location}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="hidden md:flex flex-col items-center relative">
@@ -90,42 +66,48 @@ export default function ExperienceSection() {
                         <div className="flex items-center gap-3 mt-2">
                           <Briefcase className="w-4 h-4 text-primary shrink-0" />
                           <span className="text-primary font-semibold text-base">
-                            {exp.role}
+                            {exp.jobTitle}
                           </span>
                         </div>
                       </div>
                       <span className="text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-primary/30 text-primary bg-primary/5">
-                        {exp.type}
+                        {exp.employmentType}
                       </span>
                     </div>
 
                     <div className="border-t border-white/5 mb-6" />
 
-                    <p className="text-slate-400 leading-relaxed mb-8 text-sm md:text-base">
-                      {exp.description}
-                    </p>
+                    {exp.description && (
+                      <p className="text-slate-400 leading-relaxed mb-8 text-sm md:text-base">
+                        {exp.description}
+                      </p>
+                    )}
 
-                    <ul className="space-y-3 mb-8">
-                      {exp.achievements.map((a, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                          <span className="text-slate-300 text-sm leading-relaxed">
-                            {a.text}
+                    {(exp.achievements ?? []).length > 0 && (
+                      <ul className="space-y-3 mb-8">
+                        {(exp.achievements ?? []).map((text, i) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                            <span className="text-slate-300 text-sm leading-relaxed">
+                              {text}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {(exp.techStack ?? []).length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {(exp.techStack ?? []).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-3 py-1 text-xs rounded-full border border-white/10 text-slate-400 bg-white/3 hover:border-primary/40 hover:text-primary transition-colors"
+                          >
+                            {tag}
                           </span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="flex flex-wrap gap-2">
-                      {exp.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1 text-xs rounded-full border border-white/10 text-slate-400 bg-white/3 hover:border-primary/40 hover:text-primary transition-colors"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
