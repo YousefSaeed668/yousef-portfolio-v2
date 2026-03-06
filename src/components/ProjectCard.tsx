@@ -1,7 +1,7 @@
 'use client'
 
 import { easePrecise, springGentle, springSnappy } from '@/lib/motion'
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
@@ -30,25 +30,6 @@ export default function ProjectCard({
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.15 })
 
-  const imageRef = useRef<HTMLDivElement>(null)
-  const rawX = useMotionValue(0)
-  const rawY = useMotionValue(0)
-  const springX = useSpring(rawX, { stiffness: 150, damping: 20 })
-  const springY = useSpring(rawY, { stiffness: 150, damping: 20 })
-
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (!imageRef.current) return
-    const rect = imageRef.current.getBoundingClientRect()
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top + rect.height / 2
-    rawX.set((e.clientX - cx) * 0.06)
-    rawY.set((e.clientY - cy) * 0.06)
-  }
-
-  function handleMouseLeave() {
-    rawX.set(0)
-    rawY.set(0)
-  }
 
   return (
     <motion.article
@@ -58,12 +39,8 @@ export default function ProjectCard({
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ ...springGentle, delay: index * 0.08 }}
     >
-      <motion.div
-        ref={imageRef}
+      <div
         className={`md:col-span-7 relative overflow-hidden rounded-lg aspect-4/3 md:aspect-[16/10]${reverse ? ' md:order-2' : ''}`}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ x: springX, y: springY }}
       >
         <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
         <Image
@@ -73,7 +50,7 @@ export default function ProjectCard({
           className="object-cover object-top transition-transform duration-700 group-hover:scale-101"
           sizes="(max-width: 768px) 100vw, 58vw"
         />
-      </motion.div>
+      </div>
 
       <div className={`md:col-span-5 flex flex-col justify-center${reverse ? ' md:order-1 md:text-right md:items-end' : ''}`}>
         <div className="overflow-hidden">
