@@ -46,13 +46,18 @@ export default function Footer() {
             <span className="text-slate-500 text-xs uppercase tracking-widest mb-2">
               Sitemap
             </span>
-            <Link className="text-white hover:text-primary transition-colors" href="#home">
+            <Link className="text-white hover:text-primary transition-colors" href="/#home">
               Home
             </Link>
-            <Link className="text-white hover:text-primary transition-colors" href="/blogs">
-              Work
+            <Link className="text-white hover:text-primary transition-colors" href="/projects">
+              Projects
             </Link>
-           
+            <Link className="text-white hover:text-primary transition-colors" href="/blogs">
+              Blogs
+            </Link>
+            <Link className="text-white hover:text-primary transition-colors" href="/#contact">
+              Contact
+            </Link>
           </div>
         </div>
       </div>
