@@ -1,4 +1,5 @@
 import { BlogClientShell } from "@/app/blogs/_components/BlogClientShell";
+import { BlogsPageHeader } from "@/app/blogs/_components/BlogsPageHeader";
 import { calcReadTime } from "@/lib/helper";
 import { client } from "@/sanity/lib/client";
 import { POSTS_QUERY, type PostListItem } from "@/sanity/lib/queries";
@@ -56,19 +57,7 @@ export default async function BlogPage() {
 
       <main className="max-w-350 mx-auto px-6 md:px-12 py-16">
 
-        <div className="mb-14">
-          <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase block mb-4">
-            Writing
-          </span>
-          <h1 className="font-serif text-6xl md:text-8xl text-white leading-none mb-6">
-            Articles &amp;{" "}
-            <span className="text-white/20">Notes</span>
-          </h1>
-          <p className="text-slate-400 text-lg max-w-xl leading-relaxed">
-            Practical write-ups on frontend, backend, and everything in between.
-            Mix of quick tips and deep dives.
-          </p>
-        </div>
+        <BlogsPageHeader />
 
 
         <BlogClientShell posts={posts} categories={categories} stats={stats} />

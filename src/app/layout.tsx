@@ -41,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfairDisplay.variable} ${spaceGrotesk.variable} antialiased`}>
+      <body className={`${playfairDisplay.variable} ${spaceGrotesk.variable} antialiased overflow-x-hidden`}>
         <Header />
         {children}
       </body>

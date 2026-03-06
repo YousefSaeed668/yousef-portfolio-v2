@@ -58,7 +58,7 @@ export const portableTextComponents: PortableTextComponents = {
     bullet: ({ children }) => (
       <li className="flex items-start gap-3 text-slate-300 leading-relaxed">
         <span className="shrink-0 mt-2.5 w-1.5 h-1.5 rounded-full bg-primary" />
-        {children}
+        <span className="min-w-0 wrap-break-words">{children}</span>
       </li>
     ),
     number: ({ children, index }) => (
@@ -66,7 +66,7 @@ export const portableTextComponents: PortableTextComponents = {
         <span className="shrink-0 mt-1 w-6 h-6 rounded-full bg-primary/15 text-primary text-xs font-bold flex items-center justify-center">
           {(index ?? 0) + 1}
         </span>
-        {children}
+        <span className="min-w-0 wrap-break-words">{children}</span> 
       </li>
     ),
   },

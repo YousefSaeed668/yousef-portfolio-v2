@@ -1,8 +1,10 @@
 "use client";
 
 import { BlogCard } from "@/components/BlogCard";
+import { containerVariants, easePrecise, springGentle, springSnappy } from "@/lib/motion";
 import { urlFor } from "@/sanity/lib/image";
 import type { PostListItem } from "@/sanity/lib/queries";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Search, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -89,8 +91,12 @@ export function BlogClientShell({ posts, categories, stats }: BlogClientShellPro
 
   return (
     <>
-
-      <div className="flex items-center gap-4 mb-8">
+      <motion.div
+        className="flex items-center gap-4 mb-8"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ...springGentle, delay: 0.15 }}
+      >
         <div className="relative flex-1 md:max-w-xs">
           <Search className="absolute left-3 w-4 h-4 text-slate-500 pointer-events-none top-1/2 -translate-y-1/2" />
           <input
@@ -101,32 +107,61 @@ export function BlogClientShell({ posts, categories, stats }: BlogClientShellPro
             className="w-full bg-surface-dark border border-white/10 rounded-full pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary/50 transition-colors"
           />
         </div>
-      </div>
+      </motion.div>
 
-
-      <div className="flex flex-wrap gap-2 mb-12">
+      <motion.div
+        className="flex flex-wrap gap-2 mb-12"
+        variants={containerVariants(0.06, 0.25)}
+        initial="hidden"
+        animate="visible"
+      >
         {categories.map((cat) => (
-          <button
+          <motion.button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all duration-200 ${activeCategory === cat
-              ? "bg-primary text-black border-primary"
-              : "border-white/10 text-slate-400 hover:border-primary/50 hover:text-primary bg-transparent"
-              }`}
+            className="relative px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-colors duration-200 overflow-hidden"
+            style={{
+              borderColor: activeCategory === cat ? 'var(--color-primary)' : 'rgba(255,255,255,0.1)',
+              color: activeCategory === cat ? 'black' : 'rgb(148,163,184)',
+            }}
+            variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { ...springSnappy } } }}
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.95 }}
           >
-            {cat}
-          </button>
+            <AnimatePresence>
+              {activeCategory === cat && (
+                <motion.span
+                  layoutId="activePill"
+                  className="absolute inset-0 bg-primary rounded-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.22, ease: easePrecise }}
+                />
+              )}
+            </AnimatePresence>
+            <span className="relative z-10">{cat}</span>
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
 
 
-      {filtered.length === 0 && (
-        <div className="py-32 flex flex-col items-center text-center">
-          <p className="text-5xl mb-4">🔍</p>
-          <h3 className="font-serif text-2xl text-white mb-2">No articles found</h3>
-          <p className="text-slate-400 text-sm">Try a different category or search term.</p>
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {filtered.length === 0 && (
+          <motion.div
+            key="empty"
+            className="py-32 flex flex-col items-center text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ ...springGentle }}
+          >
+            <p className="text-5xl mb-4">🔍</p>
+            <h3 className="font-serif text-2xl text-white mb-2">No articles found</h3>
+            <p className="text-slate-400 text-sm">Try a different category or search term.</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
 
       {filtered.length > 0 && (
@@ -148,18 +183,28 @@ export function BlogClientShell({ posts, categories, stats }: BlogClientShellPro
       )}
 
 
-      <div className="mt-20 pt-8 border-t border-white/5 flex flex-wrap gap-8 text-center justify-center">
+      <motion.div
+        className="mt-20 pt-8 border-t border-white/5 flex flex-wrap gap-8 text-center justify-center"
+        variants={containerVariants(0.1, 0.1)}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+      >
         {[
           { value: stats.totalArticles.toString(), label: "Articles" },
           { value: stats.avgReadTime, label: "Avg. read time" },
           { value: stats.totalTopics.toString(), label: "Topics covered" },
         ].map((stat) => (
-          <div key={stat.label} className="flex flex-col items-center">
+          <motion.div
+            key={stat.label}
+            className="flex flex-col items-center"
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { ...springGentle } } }}
+          >
             <span className="font-serif text-4xl text-white mb-1">{stat.value}</span>
             <span className="text-slate-500 text-xs uppercase tracking-widest">{stat.label}</span>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </>
   );
 }

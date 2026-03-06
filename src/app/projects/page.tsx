@@ -39,12 +39,12 @@ export default async function ProjectsPage() {
         <section className="py-20 bg-surface-dark px-6 md:px-12 min-h-screen">
           <div className="max-w-350 mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8">
-              <h1 className="font-serif text-5xl md:text-7xl text-white">
+              <h1 className="font-serif max-sm:w-full text-5xl md:text-7xl text-white">
                 All
                 <br />
                 <span className="text-white/20">Projects</span>
               </h1>
-              <p className="text-slate-400 text-right max-w-sm mt-8 md:mt-0">
+              <p className="text-slate-400 sm:text-right max-w-sm mt-8 md:mt-0">
                 A full collection of projects spanning design, engineering, and
                 everything in between.
               </p>
