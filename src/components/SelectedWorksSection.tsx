@@ -25,7 +25,7 @@ export default function SelectedWorksSection({ projects }: Props) {
           ref={headingRef}
           className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8"
         >
-          <div className="overflow-hidden">
+          <div className="overflow-hidden max-sm:w-full">
             <motion.h2
               className="font-serif text-5xl md:text-7xl text-white"
               initial={{ y: '110%' }}
@@ -38,7 +38,7 @@ export default function SelectedWorksSection({ projects }: Props) {
             </motion.h2>
           </div>
           <motion.p
-            className="text-slate-400 text-right max-w-sm mt-8 md:mt-0"
+            className="text-slate-400 sm:text-right max-w-sm mt-8 md:mt-0"
             initial={{ opacity: 0, x: 20 }}
             animate={headingInView ? { opacity: 1, x: 0 } : {}}
             transition={{ ...springGentle, delay: 0.25 }}
