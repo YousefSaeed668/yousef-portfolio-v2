@@ -16,11 +16,11 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Yousef Saeed Portfolio",
+  title: "Yousef Saeed",
   description:
     "Discover the portfolio of Yousef Saeed, a skilled web developer specializing in modern web technologies like Reactjs, Next.js, Nestjs and Tailwind CSS. Explore his projects, skills, and professional journey.",
   openGraph: {
-    title: "Yousef Saeed Portfolio",
+    title: "Yousef Saeed",
     description:
       "Discover the portfolio of Yousef Saeed, a skilled web developer specializing in modern web technologies like Reactjs, Next.js, Nestjs and Tailwind CSS. Explore his projects, skills, and professional journey.",
     images: [
